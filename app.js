@@ -5,13 +5,14 @@ const descElement = document.querySelector(".temp-desc p");
 const locationElement = document.querySelector(".location p");
 
 const weather = {};
-const key = "4943d1a31d77050417bfb053cc0176fa";
 
 weather.temperature = {
     unit : "celsius"
 }
 
 const KELVIN = 273;
+const key = "4943d1a31d77050417bfb053cc0176fa";
+
 
 
 if('geolocation' in navigator){
@@ -21,20 +22,24 @@ if('geolocation' in navigator){
     notifyElement.innerHTML = "<p>Browser doesn't support Geolocation</p>"
 }
 
+// f
 function setPosition(position){
     let latitude = position.coords.latitude;
     let longitude = position.coords.longitude;
-    getWeather(latitude,longitude);
+    
+    getWeather(latitude, longitude);
 }
 
+// SHOW ERROR WHEN THERE IS AN ISSUE WITH GEOLOCATION SERVICE
 function showError(error){
-    notifyElement.style.display = "block";
-    notifyElement.innerHTML = `<p>${error.message}</p>`
+    notificationElement.style.display = "block";
+    notificationElement.innerHTML = `<p> ${error.message} </p>`;
 }
 
-function getWeather(latitude,longitude) {
-    let api = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&appid=${key}`;
-
+// GET WEATHER FROM API PROVIDER
+function getWeather(latitude, longitude){
+    let api = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${key}`;
+    
     fetch(api)
         .then(function(response){
             let data = response.json();
@@ -49,12 +54,12 @@ function getWeather(latitude,longitude) {
         })
         .then(function(){
             displayWeather();
-        })
+        });
 }
 
 function displayWeather(){
-    iconElement.innerHTML = `<img src="icons/${weather.iconId}.png"/>`
-    tempElement.innerHTML = `${weather.temperature.value} degree<span> C</span>`;
+    iconElement.innerHTML = `<img src="icons/${weather.iconId}.png"/>`;
+    tempElement.innerHTML = `${weather.temperature.value} <span>°C</span>`;
     descElement.innerHTML = weather.description;
     locationElement.innerHTML = `${weather.city},${weather.country}`;
 }
@@ -63,15 +68,17 @@ function celsiusToFahrenheit(temperature){
     return (temperature * 9/5) + 32;
 }
 
-tempElement.addEventListener("click",function(){
+tempElement.addEventListener("click", function(){
     if(weather.temperature.value === undefined) return;
+    
     if(weather.temperature.unit == "celsius"){
         let fahrenheit = celsiusToFahrenheit(weather.temperature.value);
         fahrenheit = Math.floor(fahrenheit);
-        tempElement.innerHTML = `${fahrenheit} degree <span> F</span>`;
+        
+        tempElement.innerHTML = `${fahrenheit}°<span>F</span>`;
         weather.temperature.unit = "fahrenheit";
     }else{
-        tempElement.innerHTML = `${weather.temperature.value} degree <span> C</span>`;
-        weather.temperature.value = "celsius";
+        tempElement.innerHTML = `${weather.temperature.value}°<span>C</span>`;
+        weather.temperature.unit = "celsius"
     }
-})
+});
