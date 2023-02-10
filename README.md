@@ -1,4 +1,4 @@
-# Weather-App
+# Weather-App :sun_behind_large_cloud:
 A simple weather application using HTML, CSS, JavaScript.
 
 Our Weather application will display us the weather information fetched from API like openweathermap-api. The app shows temperature both in Celsius and Fahrenheit. When user clicks on the temperature the temperature is converted from Celsius to Fahrenheit.
