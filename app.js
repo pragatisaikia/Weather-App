@@ -11,7 +11,7 @@ weather.temperature = {
 }
 
 const KELVIN = 273;
-const key = "4943d1a31d77050417bfb053cc0176fa";
+
 
 
 
